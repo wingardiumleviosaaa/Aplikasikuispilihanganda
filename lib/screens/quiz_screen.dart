@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/questions.dart';
+import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -11,22 +12,57 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   int currentIndex = 0;
   int? selectedIndex;
+  int score = 0;
+  bool isCompleted = false;
 
-  void _nextQuestion() {
+  void _selectAnswer(int index) {
     setState(() {
-      if (currentIndex < questions.length - 1) {
-        currentIndex++;
-        selectedIndex = null;
+      selectedIndex = index;
+      if (index == questions[currentIndex].correctIndex) {
+        score++;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('✅ Correct!')),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Quiz completed!')),
+          const SnackBar(content: Text('❌ Wrong answer!')),
         );
       }
     });
   }
 
+  void _nextQuestion() {
+    if (currentIndex < questions.length - 1) {
+      setState(() {
+        currentIndex++;
+        selectedIndex = null;
+      });
+    } else {
+      setState(() {
+        isCompleted = true;
+      });
+    }
+  }
+
+  void _restartQuiz() {
+    setState(() {
+      currentIndex = 0;
+      score = 0;
+      selectedIndex = null;
+      isCompleted = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (isCompleted) {
+      return ResultScreen(
+        score: score,
+        totalQuestions: questions.length,
+        onRestart: _restartQuiz,
+      );
+    }
+
     final question = questions[currentIndex];
 
     return Scaffold(
@@ -51,27 +87,16 @@ class _QuizScreenState extends State<QuizScreen> {
                         ? Colors.blueAccent
                         : Colors.blueGrey.shade100,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                    if (index == question.correctIndex) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Correct!')),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Wrong answer!')),
-                      );
-                    }
-                  },
+                  onPressed: selectedIndex == null
+                      ? () => _selectAnswer(index)
+                      : null,
                   child: Text(question.options[index]),
                 ),
               );
             }),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _nextQuestion,
+              onPressed: selectedIndex != null ? _nextQuestion : null,
               child: const Text('Next'),
             ),
           ],
