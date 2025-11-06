@@ -12,6 +12,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Midterm Quiz',
+      themeMode: ThemeMode.system, // Automatically follows system theme
+      theme: ThemeData(
+        brightness: Brightness.light,
+        fontFamily: 'GoogleSans',
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'GoogleSans',
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        useMaterial3: true,
+      ),
       home: const QuizScreen(),
     );
   }

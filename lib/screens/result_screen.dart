@@ -10,7 +10,7 @@ class ResultScreen extends StatelessWidget {
     required this.score,
     required this.totalQuestions,
     required this.onRestart,
-});
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,12 @@ class ResultScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(
+                'assets/images/tick.png',
+                width: 120,
+                height: MediaQuery.of(context).size.height * 0.25,
+              ),
+              const SizedBox(height: 24),
               const Text(
                 'Quiz Completed!',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

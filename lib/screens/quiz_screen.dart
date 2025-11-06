@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/questions.dart';
 import 'result_screen.dart';
+import '../widgets/question_text.dart';
+import '../widgets/answer_button.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -72,26 +74,16 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              question.text,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            QuestionText(text: question.text),
             const SizedBox(height: 24),
             ...List.generate(question.options.length, (index) {
               final isSelected = selectedIndex == index;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isSelected
-                        ? Colors.blueAccent
-                        : Colors.blueGrey.shade100,
-                  ),
-                  onPressed: selectedIndex == null
-                      ? () => _selectAnswer(index)
-                      : null,
-                  child: Text(question.options[index]),
-                ),
+              return AnswerButton(
+                text: question.options[index],
+                isSelected: isSelected,
+                onPressed: selectedIndex == null
+                    ? () => _selectAnswer(index)
+                    : () {},
               );
             }),
             const SizedBox(height: 20),
