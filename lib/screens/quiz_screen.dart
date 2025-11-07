@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../data/questions.dart';
+import '../providers/theme_provider.dart';
 import 'result_screen.dart';
 import '../widgets/question_text.dart';
 import '../widgets/answer_button.dart';
@@ -55,6 +57,17 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  IconData _getThemeIcon(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.light:
+        return Icons.light_mode;
+      case ThemeMode.dark:
+        return Icons.dark_mode;
+      case ThemeMode.system:
+        return Icons.brightness_auto;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isCompleted) {
@@ -66,9 +79,21 @@ class _QuizScreenState extends State<QuizScreen> {
     }
 
     final question = questions[currentIndex];
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Midterm Quiz')),
+      appBar: AppBar(
+        title: const Text('Midterm Quiz'),
+        actions: [
+          IconButton(
+            icon: Icon(_getThemeIcon(themeProvider.themeMode)),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+            tooltip: 'Toggle Theme',
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

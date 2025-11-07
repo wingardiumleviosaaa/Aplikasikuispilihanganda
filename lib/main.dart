@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tugasuts/providers/theme_provider.dart';
 import 'screens/quiz_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,29 +17,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Kuis Tes Emyu',
-      themeMode: ThemeMode.system, // Automatically follows system theme
-      theme: ThemeData(
-        brightness: Brightness.light,
-        fontFamily: 'GoogleSans',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: 'GoogleSans',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.dark,  // ✅ This is the fix!
-        ),
-        useMaterial3: true,
-      ),
-      home: const QuizScreen(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Kuis Emyu Sejati',
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData(
+            brightness: Brightness.light,
+            fontFamily: 'GoogleSans',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.blue,
+              brightness: Brightness.light,
+            ),
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: 'GoogleSans',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.teal,
+              brightness: Brightness.dark,
+            ),
+            useMaterial3: true,
+          ),
+          home: const QuizScreen(),
+        );
+      },
     );
   }
 }
