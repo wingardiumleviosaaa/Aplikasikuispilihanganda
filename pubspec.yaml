@@ -59,9 +59,13 @@ flutter:
 
   assets:
     - assets/images/tick.png
+#    - assets/fonts/GoogleSans-Bold.ttf
+#    - assets/fonts/GoogleSans-Regular.ttf
+
   fonts:
     - family: GoogleSans
       fonts:
-        - asset: fonts/GoogleSans-Bold.ttf
-        - asset: fonts/GoogleSans-Regular.ttf
+        - asset: assets/fonts/GoogleSans-Bold.ttf
           weight: 700
+        - asset: assets/fonts/GoogleSans-Regular.ttf
+          weight: 400

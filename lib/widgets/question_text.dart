@@ -10,7 +10,7 @@ class QuestionText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontFamily: 'Poppins',
+        fontFamily: 'GoogleSans',
         fontSize: MediaQuery.of(context).size.width * 0.05,
         fontWeight: FontWeight.bold,
       ),
